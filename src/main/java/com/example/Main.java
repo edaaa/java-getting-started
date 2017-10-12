@@ -18,6 +18,7 @@ package com.example;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -29,6 +30,8 @@ import static javax.measure.unit.SI.KILOGRAM;
 import javax.measure.quantity.Mass;
 import org.jscience.physics.model.RelativisticModel;
 import org.jscience.physics.amount.Amount;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -36,45 +39,57 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
 @SpringBootApplication
 public class Main {
 
-  @Value("${spring.datasource.url}")
-  private String dbUrl;
+    @Value("${spring.datasource.url}")
+    private String dbUrl;
 
-  @Autowired
-  private DataSource dataSource;
+    @Autowired
+    private DataSource dataSource;
 
-  public static void main(String[] args) throws Exception {
-    SpringApplication.run(Main.class, args);
-  }
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(Main.class, args);
+    }
 
-  @RequestMapping("/")
-  String index() {
-    return "index";
-  }
-   @RequestMapping(value={"/","home"})
-        public String home(){
-            return "home";
-        }
-   
-    @RequestMapping(value={"/welcome"})
-    public String welcome(){
+    @RequestMapping("/")
+    String index() {
+        return "index";
+    }
+
+    @RequestMapping(value = {"/", "home"})
+    public String home() {
+        return "home";
+    }
+
+    @RequestMapping(value = {"/welcome"})
+    public String welcome() {
         return "welcome";
     }
-  
-    @RequestMapping(value="/admin")
-    public String admin(){
+
+    @RequestMapping(value = "/admin")
+    public String admin() {
         return "admin";
     }
-   
-    @RequestMapping(value={"/login"})
-    public String login(){
+
+   /* @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public List<User> student(@RequestParam("name") String name, @RequestParam("password") String password) {
+       // List<User> users = new ArrayList<User>();
+       /* User s=new User();
+        s.setName(name);
+        s.setPassword(password);
+        users.add(s);
+        return users;*/
+
+    @RequestMapping(value = "/login")
+    public String login() {
         return "login";
     }
+
 
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
