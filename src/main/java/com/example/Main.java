@@ -25,6 +25,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import static javax.measure.unit.SI.KILOGRAM;
+import javax.measure.quantity.Mass;
+import org.jscience.physics.model.RelativisticModel;
+import org.jscience.physics.amount.Amount;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -52,18 +56,37 @@ public class Main {
   String index() {
     return "index";
   }
+   @RequestMapping(value={"/","home"})
+        public String home(){
+            return "home";
+        }
+   
+    @RequestMapping(value={"/welcome"})
+    public String welcome(){
+        return "welcome";
+    }
+  
+    @RequestMapping(value="/admin")
+    public String admin(){
+        return "admin";
+    }
+   
+    @RequestMapping(value={"/login"})
+    public String login(){
+        return "login";
+    }
 
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-      stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
-      ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (id int,name varchar(255),password varchar(255))");
+      stmt.executeUpdate("INSERT INTO users(id,name,password) VALUES (15,'ali','veli')");
+      ResultSet rs = stmt.executeQuery("SELECT name FROM users");
 
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
-        output.add("Read from DB: " + rs.getTimestamp("tick"));
+        output.add("Read from DB: " + rs.getTimestamp("users"));
       }
 
       model.put("records", output);
