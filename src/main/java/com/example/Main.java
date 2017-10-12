@@ -81,7 +81,10 @@ public class Main {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (id int,name varchar(255),password varchar(255))");
-      stmt.executeUpdate("INSERT INTO users(id,name,password) VALUES (15,'ali','veli')");
+        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users_role (role_id int,role_name varchar(255),role varchar(255))");
+        stmt.executeUpdate("INSERT INTO users(id,name,password) VALUES (15,'ali','veli')");
+      stmt.executeUpdate("INSERT INTO users_role(role_id,role_name,role) VALUES (15,'ali','admin')");
+
       ResultSet rs = stmt.executeQuery("SELECT name FROM users");
 
       ArrayList<String> output = new ArrayList<String>();
