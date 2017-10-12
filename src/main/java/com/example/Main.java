@@ -56,7 +56,8 @@ public class Main {
   String index() {
     return "index";
   }
-   @RequestMapping(value={"/","home"})
+
+   @RequestMapping(value={"/","homee"})
         public String home(){
             return "home";
         }
